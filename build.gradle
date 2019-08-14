@@ -1,0 +1,38 @@
+// using gradle 1.2
+// make sure its updated
+
+apply plugin: 'maven'
+
+group 'com.mobfox.android.MobfoxSDK'
+
+version = '4.0.7'
+
+ext {
+    // location of external files relative to this build.gradle file
+    extFiles = [
+        main: 'MobFox-Android-MobfoxSDK-4.0.7.jar',
+    ]
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.project {
+            name 'External supplier library jar'
+            organization {
+                name 'Example Systems'
+            }
+        }
+        // fake repository used for testing
+        repository( id: 'fakeRepo', url: 'file:repository/' )
+    }
+}
+
+artifacts {
+    archives file: file( extFiles.main ), type: 'jar'
+}
+
+task cleanTmp << {
+    delete 'tmp'
+}
+
+clean.dependsOn cleanTmp
